@@ -1,7 +1,7 @@
 #!/usr/bin/awk -f
 
 # Computes the average of all input records.
-# If the data set is multidimensional (several records per line)
+# If the data set is multidimensional (several fields per line)
 # computes the average of each column.
 
 # Set the number of expected fields
