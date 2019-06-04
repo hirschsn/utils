@@ -109,20 +109,16 @@ if (! -e $cmdline) {
     die "Cannot access program $cmdline";
 }
 
-my $ngood = 0;
-my $nfail = 0;
 my @good;
 my @fail;
 
 for my $i (0..$ntests-1) {
     my $nproc = int(rand($max_proc - $min_proc)) + $min_proc;
-    printf "\r%3i\t[%i/%i tests; %i failed; %i successful]", $nproc, $i, $ntests, $nfail, $ngood;
+    printf "\r%3i\t[%i/%i tests; %i failed; %i successful]", $nproc, $i, $ntests, scalar @fail, scalar @good;
     system "mpiexec --oversubscribe -n $nproc $cmdline >/dev/null";
     if ($?) {
-        $nfail += 1;
         push @fail, $nproc;
     } else {
-        $ngood += 1;
         push @good, $nproc;
     }
 }
@@ -142,4 +138,4 @@ if (@fail > 0) {
     pprint @fail;
     print "\n";
 }
-printf "%i tests; %i failed; %i successful\n", $ntests, $nfail, $ngood;
+printf "%i tests; %i failed; %i successful\n", $ntests, scalar @fail, scalar @good;
