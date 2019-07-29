@@ -6,5 +6,5 @@
 # Reads from stdin and prints a histogram of the data.
 #
 
-sort | uniq -c | awk '{print $2,$1}' | gnuplot -p -e "$*; plot '-' w p;"
+sort -g | uniq -c | awk '{print $2,$1}' | gnuplot -p -e "$*; plot '-' w p;"
 
