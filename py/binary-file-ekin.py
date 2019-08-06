@@ -22,14 +22,14 @@ def energy_stats(vel):
 
 
 def print_header():
-    print("{:25s} {:10s} {:10s} {:10s}".format(
+    print("{:25s} {:12s} {:12s} {:12s}".format(
         "File", "Max E_kin", "Avg E_kin", "Min E_kin"))
 
 
 def print_stats(fn):
     vel = load_vel_field(fn)
     emax, eavg, emin = energy_stats(vel)
-    print("{:25s} {:10f} {:20f} {:10f} (shape: {}x{})".format(
+    print("{:25s} {:12f} {:12f} {:12f} (shape: {}x{})".format(
         fn, emax, eavg, emin, vel.shape[0], vel.shape[1]))
 
 
