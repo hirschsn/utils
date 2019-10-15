@@ -24,8 +24,11 @@ if len(sys.argv) != 5:
     print("Usage: {} POS-FILE BOX NCELLS RESULT-FILE".format(sys.argv[0]), file=sys.stderr)
     print("Example: {} positions.bin 800.0,800.0,800.0 128,128,128 lcgrid.npy".format(sys.argv[0]), file=sys.stderr)
 
-pos = np.fromfile(sys.argv[1])
-pos = pos.reshape(pos.shape[0] // 3, 3)
+if sys.argv[1].endswith(".npy"):
+    pos = np.load(sys.argv[1])
+else:
+    pos = np.fromfile(sys.argv[1])
+    pos = pos.reshape(pos.shape[0] // 3, 3)
 
 print("Read: {} particles".format(pos.shape[0]))
 
