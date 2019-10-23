@@ -1,0 +1,41 @@
+#!/usr/bin/python3
+#
+# Multiply-accumulate neighboring values in a 3d field
+# Copyright 2019, Steffen Hirschmann
+#
+# Permission to use, copy, modify, and/or distribute this software for any
+# purpose with or without fee is hereby granted, provided that the above
+# copyright notice and this permission notice appear in all copies.
+#
+# THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH
+# REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY
+# AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT,
+# INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
+# LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR
+# OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
+# PERFORMANCE OF THIS SOFTWARE.
+#
+
+import numpy as np
+import sys
+
+def fscost(a):
+    res = np.zeros(shape=a.shape)
+    for x in [-1, 0, 1]:
+        ax = np.roll(a, x, axis=0)
+        for y in [-1, 0, 1]:
+            axy = np.roll(ax, y, axis=1)
+            for z in [-1, 0, 1]:
+                axyz = np.roll(axy, z, axis=2)
+                res += a * axyz
+    return res
+
+def main():
+    for i in sys.argv[1:]:
+        a = np.load(i)
+        b = fscost(a)
+        np.save(i + ".fscost", b)
+
+if __name__ == "__main__":
+    main()
+
