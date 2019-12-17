@@ -27,8 +27,9 @@ if len(sys.argv) != 5:
 if sys.argv[1].endswith(".npy"):
     pos = np.load(sys.argv[1])
 else:
-    pos = np.fromfile(sys.argv[1])
-    pos = pos.reshape(pos.shape[0] // 3, 3)
+    pos = np.loadtxt(sys.argv[1])
+
+assert(len(pos.shape) == 2 and pos.shape[1] == 3)
 
 print("Read: {} particles".format(pos.shape[0]))
 
