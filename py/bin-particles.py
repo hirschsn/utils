@@ -29,7 +29,7 @@ if sys.argv[1].endswith(".npy"):
 else:
     pos = np.loadtxt(sys.argv[1])
 
-assert(len(pos.shape) == 2 and pos.shape[1] == 3)
+assert len(pos.shape) == 2 and pos.shape[1] == 3
 
 print("Read: {} particles".format(pos.shape[0]))
 
@@ -41,13 +41,8 @@ print("Box      :", box)
 print("Ncells   :", lcgrid)
 print("Cell size:", cellsize)
 
-# Fold positions to box
-for i in range(3):
-    col = pos[i,:]
-    col[col >= box[i]] -= box[i]
-    col[col < 0] += box[i]
-    # 1 shift should be enough, but don't silently produce wrong results
-    assert(np.all(0 <= col) and np.all(col < box[i]))
+pos -= np.floor(pos / box) * box
+assert np.all(pos >= 0.) and np.all(pos < box)
 
 # Bin particles to linked cells
 rng = [(0, b) for b in box]
