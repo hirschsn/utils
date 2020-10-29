@@ -23,11 +23,19 @@ import numpy as np
 if len(sys.argv) != 5:
     print("Usage: {} POS-FILE BOX NCELLS RESULT-FILE".format(sys.argv[0]), file=sys.stderr)
     print("Example: {} positions.bin 800.0,800.0,800.0 128,128,128 lcgrid.npy".format(sys.argv[0]), file=sys.stderr)
+    raise SystemExit(1)
 
 if sys.argv[1].endswith(".npy"):
+    print("Loading npy")
     pos = np.load(sys.argv[1])
-else:
+    print("Loading txt")
+elif sys.argv[1].endswith(".txt"):
     pos = np.loadtxt(sys.argv[1])
+else:
+    print("Loading binary dump")
+    pos = np.fromfile(sys.argv[1])
+    assert pos.shape[0] % 3 == 0
+    pos.resize((pos.shape[0] // 3, 3))
 
 assert len(pos.shape) == 2 and pos.shape[1] == 3
 
